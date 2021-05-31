@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration><!-- DB설정(Connection) -->
+   <!-- 
+        <typeAliases>
+           VO의 별칭
+        </typeAliases>
+        
+        1) <properties>
+        2) <typeAliases>
+        3) <transactionManager>
+        4) <mappers>
+    -->
+    <typeAliases><!-- vo객체의 별칭을 모아서 관리 -->
+     
+     <!-- mapper의 resultType에 써줘야 함.알리아스로 써줘도 됨 -->
+     <typeAlias type="net.memberBoard.db.BoardBean" alias="board"/> 
+     <typeAlias type="net.memberBoard.db.MemberBean" alias="member"/> 
+     
+    </typeAliases>
+    <!-- DB연동 -->
+    <environments default="development">
+      <environment id="development">
+        <transactionManager type="JDBC"/>
+        
+        <dataSource type="POOLED">
+        
+         <property name="driver" 
+            value="oracle.jdbc.driver.OracleDriver"/>
+         <property name="url" 
+            value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+         <property name="username" value="C##ORANGE"/>
+         <property name="password" value="1234"/>
+       <!--   커넥션을 모아놓는 커넥션 풀 설정 -->
+          <property name="poolMaximumActiveConnections" value="100"/>
+         <property name="poolTimeToWait" value="-1"/>
+         
+        </dataSource>
+        
+      </environment>
+    </environments>
+    <mappers>
+      
+      <mapper resource="net/memberBoard/db/boardMember-mapper.xml"/>
+      <mapper resource="net/memberBoard/db/memberMember-mapper.xml"/>
+     
+      
+    </mappers>
+</configuration>
+
+
+
+
+
+

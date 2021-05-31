@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net/memberBoard/db/BoardBean">
+
+	<select id="selectListCount" resultType="java.lang.Integer" >
+		SELECT COUNT(*) FROM MEMBERBOARD
+		
+	</select>
+	
+	<insert id="insertBoard" parameterType="board">
+		
+		INSERT INTO MEMBERBOARD(BOARD_NUM,BOARD_USERID,BOARD_TITLE,BOARD_CONTENT,BOARD_READCOUNT, BOARD_DATE, BOARD_AVAILABLE)
+		VALUES(#{BOARD_NUM},#{BOARD_USERID},#{BOARD_TITLE},#{BOARD_CONTENT},1,SYSDATE,1)
+
+	</insert>
+	
+	
+	<select id="getNum" resultType="java.lang.Integer" >
+		SELECT BOARD_NUM
+        FROM(
+        SELECT BOARD_NUM, ROWNUM RN
+        FROM MEMBERBOARD
+        ORDER BY BOARD_NUM DESC)
+        WHERE RN = 1
+		
+	</select>
+	
+	
+	
+    
+    
+	<select id="selectBoardOne" resultType="board" parameterType="java.lang.Integer">
+	SELECT *
+    FROM MEMBERBOARD
+	WHERE BOARD_NUM = #{VALUE}
+	
+	
+	
+    </select>
+    
+    
+    <select id="selectBoardAll" resultType="board" parameterType="java.util.HashMap">
+    
+    SELECT *
+	FROM(
+	SELECT /*+INDEX_DESC(MEMBERAPP MEMBERAPP_NO_PK)*/ ROWNUM RM,BOARD_NUM, BOARD_TITLE, BOARD_USERID, BOARD_READCOUNT, BOARD_DATE  
+	FROM MEMBERBOARD
+	
+	<if test="field!=null and query!=null">
+	       <where>
+				<!-- query:key 값 /${}:동적 컬럼표현 방법 -->
+				${field} LIKE '%'||#{query}||'%'
+			</where>
+			
+	</if>
+	   ORDER BY BOARD_NUM DESC)
+	   WHERE RM BETWEEN #{start} AND #{end}
+	   
+		
+    </select>
+    
+  
+   <select id="getTotalRow" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM MEMBERBOARD
+    <where>
+    <if test="field!=null and query!=null">
+      ${field} LIKE '%'||#{query}||'%'    
+    </if>
+    </where>
+   
+  </select>
+   
+  
+  
+  
+    
+    <delete id="deleteBoard" parameterType="java.lang.Integer">
+       DELETE FROM MEMBERBOARD
+       WHERE BOARD_NUM=#{VALUE}
+    </delete>
+    
+    
+	
+</mapper>
+
+
+
+

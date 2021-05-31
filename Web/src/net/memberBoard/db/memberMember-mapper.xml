@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net/memberBoard/db/MemberBean">
+
+	<select id="idCheckMember" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT MEMBER_ID FROM MEMBER
+		WHERE MEMBER_ID = #{VALUE}
+	</select>
+	
+	<select id="pwCheckMember" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT MEMBER_PW FROM MEMBER
+		WHERE MEMBER_ID = #{VALUE}
+	</select>
+	
+	<insert id="insertMember" parameterType="member">
+		
+		INSERT INTO MEMBER(MEMBER_ID,MEMBER_PW,MEMBER_NAME,MEMBER_AGE,MEMBER_GENDER,MEMBER_EMAIL)
+		VALUES(#{MEMBER_ID},#{MEMBER_PW},#{MEMBER_NAME},#{MEMBER_AGE},#{MEMBER_GENDER},#{MEMBER_EMAIL})
+
+	</insert>
+
+	<select id="selectMemberAll" resultType="member" parameterType="String">
+	SELECT MEMBER_ID, MEMBER_PW, MEMBER_NAME, MEMBER_AGE, MEMBER_GENDER, MEMBER_EMAIL  
+    FROM MEMBER
+    WHERE MEMBER_ID!=#{VALUE} 
+	
+	
+    </select>
+	
+	<delete id="deleteMember"  parameterType="java.util.HashMap">
+	
+	DELETE FROM MEMBER
+	WHERE MEMBER_ID = #{MEMBER_ID}
+	
+	
+	
+	</delete>
+	
+	
+	
+	
+</mapper>
+
+
+
+
